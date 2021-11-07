@@ -12,8 +12,11 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
 
             <!-- 옵션 -->
+            <!-- sql을 콘솔로 찍어주는 프로퍼티-->
             <property name="hibernate.show_sql" value="true"/>
+            <!-- 쿼리 보여주는 프로퍼티 -->
             <property name="hibernate.format_sql" value="true"/>
+            <!-- 사용자가 CRUD한 내용  -->
             <property name="hibernate.use_sql_comments" value="true"/>
             <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
         </properties>
