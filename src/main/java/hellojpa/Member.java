@@ -15,6 +15,17 @@ public class Member {
 //    @Column(name = "name")
     private String name;
 
+    // 기본생성자
+    public Member(){
+
+    };
+    
+    // 커스텀 생성자를 쓰려면 기본생성자가 있어야된다
+    public Member(long id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }
