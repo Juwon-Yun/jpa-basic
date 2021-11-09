@@ -18,7 +18,13 @@
             <property name="hibernate.format_sql" value="true"/>
             <!-- 사용자가 CRUD한 내용  -->
             <property name="hibernate.use_sql_comments" value="true"/>
-            <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
+
+            <property name="hibernate.jdbc.batch_size" value="10"/>
+            
+            <!-- 스키마 자동 생성 프로퍼티(DDL)-->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            
+            
         </properties>
     </persistence-unit>
 </persistence>

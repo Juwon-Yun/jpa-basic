@@ -1,9 +1,6 @@
 package hellojpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 /*
     
@@ -87,18 +84,25 @@ public class JpaMain02 {
         tx.begin();
         try {
             // 객체를 생성만 해놓은 상태(비영속)
-            Member member = new Member();
-            member.setId(2L);
-            member.setName("MEMBERB");
+//            Member member = new Member();
+//            member.setId(2L);
+//            member.setName("MEMBERB");
+//            member.setAge(29);
 
             // 객체를 저장한 상태(영속), DB에 저장되지는 않음
             // 1차 캐시에 저장됨
-            em.persist(member);
-            
-            // flush 강제 호출 쓰기지연 SQL, 변경 감지된 쿼리를 DB에 반영함
-            em.flush();
+//            System.out.println("======BEFORE======");
+//            em.persist(member);
 
-            System.out.println("======Before Commit======");
+//            PK인 ID값을 @GeneratedValue(strategy = GenerationType.IDENTITY) 로 했을경우
+//            System.out.println("member.id => " + member.getId());
+
+//            System.out.println("======AFTER=======");
+
+            // flush 강제 호출 쓰기지연 SQL, 변경 감지된 쿼리를 DB에 반영함
+//            em.flush();
+
+//            System.out.println("======Before Commit======");
 
             // 1차 캐쉬에서 조회
 //            Member findMember = em.find(Member.class, "MEMBERB");
