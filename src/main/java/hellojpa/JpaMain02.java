@@ -76,13 +76,13 @@ import javax.persistence.*;
  */
 public class JpaMain02 {
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
-        
-        EntityManager em = emf.createEntityManager();
-        
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        try {
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+//
+//        EntityManager em = emf.createEntityManager();
+//
+//        EntityTransaction tx = em.getTransaction();
+//        tx.begin();
+//        try {
             // 객체를 생성만 해놓은 상태(비영속)
 //            Member member = new Member();
 //            member.setId(2L);
@@ -118,12 +118,12 @@ public class JpaMain02 {
             
             
             // commit되는 시점에 DB에 저장됨
-            tx.commit();
-        }catch (Exception e){
-            tx.rollback();
-        }finally{
-            em.close();
-        }
-        emf.close();
+//            tx.commit();
+//        }catch (Exception e){
+//            tx.rollback();
+//        }finally{
+//            em.close();
+//        }
+//        emf.close();
     }
 }

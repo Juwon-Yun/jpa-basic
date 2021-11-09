@@ -15,7 +15,7 @@ import java.util.Date;
                                 precision은 소수점을 포함한 전체 자릿수, scale은  소수외 자릿수다
  */
 
-@Entity
+//@Entity
 public class Member02 {
 /*
       기본 키 매핑 어노테이션 직접 할당 => @Id,
@@ -32,7 +32,7 @@ public class Member02 {
                             sequenceName(데이터베이스에 매핑할 시퀸스 이름) => "",
                             initialValue => 1,
                             allocationSize => 1(기본값은 50이며, 초기값은 -49, 51 => 1, 51 => 2 => 3으로 진행된다.
-                            (즉 메모리에 50단위로 메모리를 확보해 놓고 1씩 증가시킨다. 성능 최적화, 동시성 문제 없음)  
+                            (즉 메모리에 50단위로 메모리를 확보해 놓고 1씩 증가시킨다. 성능 최적화, 동시성 문제 없음)
       
       @GeneratedValue(strategy = GenerationType.SEQUENCE,
                         generator = "class에 매핑된 name값")

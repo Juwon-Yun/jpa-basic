@@ -40,7 +40,7 @@ import javax.persistence.*;
 
 //@Table(name = "MBR", schema="")
 //@Table(uniqueConstraints = {@UniqueConstraint(name = "NAME_AGE_UNIQUE", columnNames = {"name", "AGE"})})
-@Entity
+//@Entity
 public class Member {
     
     // @ID => PK로 설정
