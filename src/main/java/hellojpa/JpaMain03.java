@@ -52,25 +52,25 @@ import java.util.List;
  */
 public class JpaMain03 {
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         
-        EntityManager em = emf.createEntityManager();
+//        EntityManager em = emf.createEntityManager();
         
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        try {
-            Relation01_Team team = new Relation01_Team();
-            team.setName("TeamA");
-            em.persist(team);
+//        EntityTransaction tx = em.getTransaction();
+//        tx.begin();
+//        try {
+//            Relation01_Team team = new Relation01_Team();
+//            team.setName("TeamA");
+//            em.persist(team);
 
-            Relation01_Member member = new Relation01_Member();
-            member.setUsername("member1");
+//            Relation01_Member member = new Relation01_Member();
+//            member.setUsername("member1");
             // 이게 제일 중요 ***연관관계의 주인에 값을 넣는다***
 //            member.changeTeam(team);
-            em.persist(member);
+//            em.persist(member);
             
             //연관관계 편의 메소드를 양쪽에 실행하면 문제가 생길 수 있으니 하나는 주석처리함
-            team.addMember(member);
+//            team.addMember(member);
 
             // 읽기전용 데이터에 값을 넣는다(JPA가 사용하진 않는다)
             // 넣지 않아도 값은 나오지만 2가지 문제가 발생함
@@ -78,17 +78,17 @@ public class JpaMain03 {
 //             team.getMembers().add(member);
 
             // 영속성 컨텍스트를 DB에 다 쏴버린 후에 컨텍스트를 깨끗이 지운다, 이걸 써주면 밑의 줄에서 깔끔하게 DB에서 다시 조회해온다
-             em.flush();
-             em.clear();
+//             em.flush();
+//             em.clear();
 
-            Relation01_Team findTeam = em.find(Relation01_Team.class, team.getId()); // 1차 캐시 들어가있음
-            List<Relation01_Member> members = findTeam.getMembers();
+//            Relation01_Team findTeam = em.find(Relation01_Team.class, team.getId()); // 1차 캐시 들어가있음
+//            List<Relation01_Member> members = findTeam.getMembers();
 
-            System.out.println("==============================================");
-            for (Relation01_Member m : members) {
-                System.out.println("m => " + m.getUsername());
-            }
-            System.out.println("==============================================");
+//            System.out.println("==============================================");
+//            for (Relation01_Member m : members) {
+//                System.out.println("m => " + m.getUsername());
+//            }
+//            System.out.println("==============================================");
 
             // em.find하면 1차 캐시에서 가져온다
 //            Relation01_Member find_relation01_member = em.find(Relation01_Member.class, member.getId());
@@ -113,12 +113,12 @@ public class JpaMain03 {
 //            Relation01_Team newTeam = em.find(Relation01_Team.class, 100L);
 //            relation01_member.setTeam(newTeam);
 
-            tx.commit();
-        }catch (Exception e){
-            tx.rollback();
-        }finally{
-            em.close();
-        }
-        emf.close();
+//            tx.commit();
+//        }catch (Exception e){
+//            tx.rollback();
+//        }finally{
+//            em.close();
+//        }
+//        emf.close();
     }
 }
