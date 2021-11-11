@@ -48,6 +48,11 @@ public class Relation02_Member {
 //	@JoinColumn(name = "TEAM_ID")
 //	private Relation02_Team team;
 
+	// 일대일 관계 @JoinColu mn 권장(필수)
+	@OneToOne
+	@JoinColumn(name = "LOCKER_ID")
+	private Relation02_Locker locker;
+
 	public Long getId() {
 		return id;
 	}

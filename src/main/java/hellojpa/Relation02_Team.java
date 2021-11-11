@@ -19,7 +19,7 @@ public class Relation02_Team {
 //	@OneToMany(mappedBy = "team")
 //	private List<Relation02_Member> members = new ArrayList<>();
 //
-	@OneToMany(mappedBy = "team")
+	@OneToMany
 	@JoinColumn(name = "TEAM_ID")
 	private List<Relation02_Member> members = new ArrayList<>();
 
