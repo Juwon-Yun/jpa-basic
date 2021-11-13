@@ -1,6 +1,8 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /*
     엔티티 매핑

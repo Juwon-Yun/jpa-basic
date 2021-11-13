@@ -63,40 +63,40 @@ import javax.persistence.Persistence;
 public class JpaMain04 {
 	public static void main(String[] args) {
 
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 
-		EntityTransaction tx = em.getTransaction();
+//		EntityTransaction tx = em.getTransaction();
 
-		tx.begin();
-		try {
+//		tx.begin();
+//		try {
 			// alt + enter => extract method
-			Relation02_Member member = getMember(em);
+//			Relation02_Member member = getMember(em);
 
-			Relation02_Team team = new Relation02_Team();
-			team.setName("teamA");
+//			Relation02_Team team = new Relation02_Team();
+//			team.setName("teamA");
 
 			// 일대다 매핑(일이 주인) team entity에 손을 댓지만 member에 update 쿼리가 나감
 			// update 쿼리가 추가되어 나감 테이블이 많을 수록 위험함
-			team.getMembers().add(member);
+//			team.getMembers().add(member);
 
-			em.persist(team);
+//			em.persist(team);
 
-			tx.commit();
-		}catch (Exception e){
-			tx.rollback();
-		}finally {
-			em.close();
-		}
-		emf.close();
+//			tx.commit();
+//		}catch (Exception e){
+//			tx.rollback();
+//		}finally {
+//			em.close();
+//		}
+//		emf.close();
 
 	}
 
-	private static Relation02_Member getMember(EntityManager em) {
-		Relation02_Member member = new Relation02_Member();
-		member.setUsername("member1");
-		em.persist(member);
-		return member;
-	}
+//	private static Relation02_Member getMember(EntityManager em) {
+//		Relation02_Member member = new Relation02_Member();
+//		member.setUsername("member1");
+//		em.persist(member);
+//		return member;
+//	}
 }
