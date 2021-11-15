@@ -3,11 +3,10 @@ package Proxy;
 import hellojpa.Member;
 import hellojpa.Relation01_Member;
 import hellojpa.Relation01_Team;
+import org.hibernate.Hibernate;
+import org.hibernate.jpa.internal.PersistenceUnitUtilImpl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 /*
 
@@ -50,58 +49,127 @@ import javax.persistence.Persistence;
 	 - 프록시 객체를 초기화 할 때, 프록시 객체가 실제 엔티티로 바뀌는것은 아니다.
 	   초기화되면 프록시 객체를 통해서 실제 엔티티에 접근 가능
 	 - 프록시 객체는 원본 엔티티를 상속받음, 따라서 타입 체크시 주의해야함(== 비교 실패, 대신 instance of를 사용해야한다)
-	 - 영속성 컨텍스트에 찾는 엔티티가 이미 있으면 em.getReference()를 호출해도 실제 엔티티를 반환한다.
-	 - 영속성 컨텍스트의 도움을 받을 수 없는 준영속 상태일 때는 프록시를 초기화할때 문제 발생
+	 - 영속성 컨텍스트에 찾는 엔티티가 이미 있으면 em.getReference()를 호출해도 실제 엔티티를 반환한다. (반대의 상황에서도 똑같다)
+	 - 영속성 컨텍스트의 도움을 받을 수 없는 준영속 상태일 때는 프록시를 초기화하면 문제 발생
 	   (하이버네이트는 org.hibernate.LazyInitializationException 예외를 터트림)
 
      JPA에서 같은 인스턴스(영속성컨텍스트, 트렉젝션)에서의 == 비교는 항상 true로 나오기 때문에 주의해야 한다.
      == 비교에서 pk가 같고 인스턴스가 같으면 항상 true를 반환한다. (동일성 보장?)
 
+	 * 프록시 확인하는 방법들
+	  - 프록시 인스턴스의 초기화 여부 확인
+	    => PersistenceUnitUtil.isLoaded(Object entity)
+	  - 프록시 클래스 확인 방법
+	    => entity.getClass().getName() 출력(..javasist.. or HibernateProxy...)
+	  - 프록시 강제 초기화
+	    => org.hibernate.Hibernate.initialize(entity);
+	  - 참고 : JPA 표준은 강제 초기화 없음
+	    => 강제 호출 : member.getName()
 
  */
 public class Proxy {
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 
-		EntityTransaction tx = em.getTransaction();
+//		EntityTransaction tx = em.getTransaction();
 
-		tx.begin();
-		try {
+//		tx.begin();
+//		try {
 
 //			Relation01_Member member = em.find(Relation01_Member.class, 1L);
 //			printMemberAndTeam(member);
 //			printMember(member);
 
-			Relation01_Member member = new Relation01_Member();
-			member.setUsername("MemberA");
-
-			em.persist(member);
-
-			em.flush();
-			em.clear();
+//			Relation01_Member member = new Relation01_Member();
+//			member.setUsername("MemberA");
+//
+//			em.persist(member);
+//
+//			em.flush();
+//			em.clear();
 
 //			Relation01_Member findMember = em.find(Relation01_Member.class, member.getId());
 
 			// em.getReference 할 시점에 getId는 이미 있는 데이터를 끌어오고 
-			Relation01_Member findMember = em.getReference(Relation01_Member.class, member.getId());
+//			Relation01_Member findMember = em.getReference(Relation01_Member.class, member.getId());
 			// findMember Class =>class hellojpa.Relation01_Member$HibernateProxy$bFtJhdfU
 			//          => $HibernateProxy$bFtJhdfU라는 프록시(가짜) 클래스 생성
 
-			System.out.println("findMember Class =>" + findMember.getClass() );
-			System.out.println("findMember Id =>" + findMember.getId() );
+//			System.out.println("findMember Class =>" + findMember.getClass() );
+//			System.out.println("findMember Id =>" + findMember.getId() );
 			// getUserName은 데이터가 없으니 쿼리를 날려서 가져온다
-			System.out.println("findMember UserName =>" + findMember.getUsername() );
+//			System.out.println("findMember UserName =>" + findMember.getUsername() );
 
-			tx.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			tx.rollback();
-		}finally {
-			em.close();
-		}
-		emf.close();
+			// 프록시 == 비교 예제
+//			Relation01_Member member = new Relation01_Member();
+//			member.setUsername("member1");
+//			em.persist(member);
+
+//			em.flush();
+//			em.clear();
+
+//			Relation01_Member m1 = em.getReference(Relation01_Member.class, member.getId());
+//			System.out.println("m1 => " + m1.getClass());
+			/*
+				* 둘다 em.getReference()일때
+				m1 => class hellojpa.Relation01_Member$HibernateProxy$0JpXRyPg
+				Reference => class hellojpa.Relation01_Member$HibernateProxy$0JpXRyPg
+				== 비교를 true로 맞추기 위해 둘다 프록시에서 가져옴
+
+				m1은 getReference(), reference는 find()일때 ==이 성립 할까?
+					=> JPA 에서는 무조건 true를 보장해야 하기 때문에 프록시에서 가져온다.
+			 */
+//			Relation01_Member reference = em.find(Relation01_Member.class, member.getId());
+//			System.out.println("Reference => " + reference.getClass());
+
+			// 같은 인스턴스 안에서라면 무조건 true를 반환
+//			System.out.println("m1 == reference => " + (m1 == reference));
+
+//			영속성 컨텍스트의 도움을 받을 수 없는 준영속 상태일 때는 프록시를 초기화하면 문제 발생
+//			Relation01_Member member = new Relation01_Member();
+//			member.setUsername("member1");
+//			em.persist(member);
+
+//			em.flush();
+//			em.clear();
+
+//			Relation01_Member refMember = em.getReference(Relation01_Member.class, member.getId());
+//			System.out.println("m1 => " + refMember.getClass());
+
+			// 프록시 초기화 확인하기
+			// System.out.println("isLoaded? => " + emf.getPersistenceUnitUtil().isLoaded(refMember));
+			// false (초기화 되지 않았음)
+			
+			// 강제 초기화 (JPA 표준 X)
+//			refMember.getUsername();
+//			System.out.println("isLoaded? => " + emf.getPersistenceUnitUtil().isLoaded(refMember));
+			// true (초기화 됨)
+
+			// 강제 초기화 ( Hibernate의 표준 )
+//			Hibernate.initialize(refMember);
+
+
+
+			// 영속성 컨텍스트 close() or Detach()
+			// em.close();
+			// em.clear();
+//			em.detach(refMember);
+
+			// 여기서 에러 발생함 ( *** 실무에서 정말 많이 일어나는 에러 *** )
+			// org.hibernate.LazyInitializationException: could not initialize proxy [hellojpa.Relation01_Member#1] - no Session
+			// 결론 : 영속성 컨텍스트가 없다
+//			System.out.println("refMember => " + refMember.getUsername());
+
+//			tx.commit();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			tx.rollback();
+//		}finally {
+//			em.close();
+//		}
+//		emf.close();
 
 	}
 
