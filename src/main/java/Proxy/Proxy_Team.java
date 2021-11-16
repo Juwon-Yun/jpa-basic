@@ -15,20 +15,11 @@ public class Proxy_Team {
 	@Column(name = "TEAM_NAME")
 	private String name;
 
-	public Proxy_Team() {
-		super();
-	}
-
-	public Proxy_Team(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Proxy_Team(String name) {
-		this.name = name;
-	}
-
-	public Proxy_Team(Long id, String name) {
-		this.id = id;
+	public void setName(String name) {
 		this.name = name;
 	}
 
