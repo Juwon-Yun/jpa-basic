@@ -53,43 +53,43 @@ import javax.persistence.Persistence;
  */
 public class Proxy_CASCADE {
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 
-		EntityTransaction tx = em.getTransaction();
+//		EntityTransaction tx = em.getTransaction();
 
-			tx.begin();
-		try {
-			Child child1 = new Child();
-			Child child2 = new Child();
+//			tx.begin();
+//		try {
+//			Child child1 = new Child();
+//			Child child2 = new Child();
 
-			Parent parent = new Parent();
-			parent.addChild(child1);
-			parent.addChild(child2);
+//			Parent parent = new Parent();
+//			parent.addChild(child1);
+//			parent.addChild(child2);
 
-			em.persist(parent);
-			em.persist(child1);
-			em.persist(child2);
+//			em.persist(parent);
+//			em.persist(child1);
+//			em.persist(child2);
 
-			em.flush();
-			em.clear();
+//			em.flush();
+//			em.clear();
 
-			Parent findParent = em.find(Parent.class, parent.getId());
+//			Parent findParent = em.find(Parent.class, parent.getId());
 			// orphanRemoval = true 일때 아래와 같이 입력하면 컬럼이 자동으로 삭제된다(List에서 remove했을시)
-			findParent.getChildList().remove(0);
+//			findParent.getChildList().remove(0);
 
 			// CascadeType 없이 orphanRemoval = true 일때, parent가 삭제되면 child도 전부 삭제되는걸 확인 할 수 있다.
 //			em.remove(findParent);
 
-			tx.commit();
-		}catch (Exception e){
-			e.printStackTrace();
-			tx.rollback();
-		}finally {
-			em.close();
-		}
-		emf.close();
+//			tx.commit();
+//		}catch (Exception e){
+//			e.printStackTrace();
+//			tx.rollback();
+//		}finally {
+//			em.close();
+//		}
+//		emf.close();
 
 	}
 }
