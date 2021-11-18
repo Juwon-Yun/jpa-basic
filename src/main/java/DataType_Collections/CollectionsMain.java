@@ -63,35 +63,35 @@ import java.util.Set;
 */
 public class CollectionsMain {
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
-		try {
-			Collections_Member member = new Collections_Member();
-			member.setUsername("member1");
-			member.setHomeAddress(new AddressEntity("city1", "street", "1000"));
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("preHello");
+//		EntityManager em = emf.createEntityManager();
+//		EntityTransaction tx = em.getTransaction();
+//		tx.begin();
+//		try {
+//			Collections_Member member = new Collections_Member();
+//			member.setUsername("member1");
+//			member.setHomeAddress(new AddressEntity("city1", "street", "1000"));
 			
 			// 값 타입 컬렉션을 따로  persist하지 않았지만 라이프사이클에 포함된다 
 			//  => 값 타입 Embeddable 이여서 가능하다
 			// member에서 값을 입력하면 됨
 			// orphanremoval = true , cascade.all을 다 킨 효과와 같다
-			member.getFavoriteFoods().add("치킨");
-			member.getFavoriteFoods().add("족발");
-			member.getFavoriteFoods().add("피자");
+//			member.getFavoriteFoods().add("치킨");
+//			member.getFavoriteFoods().add("족발");
+//			member.getFavoriteFoods().add("피자");
 
-			member.getAddressHistory().add(new AddressEntity("old1", "street", "1000"));
-			member.getAddressHistory().add(new AddressEntity("old2", "street", "1000"));
+//			member.getAddressHistory().add(new AddressEntity("old1", "street", "1000"));
+//			member.getAddressHistory().add(new AddressEntity("old2", "street", "1000"));
 
-			em.persist(member);
+//			em.persist(member);
 
-			em.flush();
-			em.clear();
+//			em.flush();
+//			em.clear();
 			
 			// 컬렉션들은 전부 지연로딩이 기본값이다.
-			System.out.println("=========================================");
-			Collections_Member findMember = em.find(Collections_Member.class, member.getId());
-			System.out.println("=========================================");
+//			System.out.println("=========================================");
+//			Collections_Member findMember = em.find(Collections_Member.class, member.getId());
+//			System.out.println("=========================================");
 
 //			List<Address> addressHistory = findMember.getAddressHistory();
 //			for (Address add: addressHistory) {
@@ -114,25 +114,25 @@ public class CollectionsMain {
 
 			// 치킨 => 한식
 			// String은 삭제하고 다시 추가해야함 (당연한 과정)
-			findMember.getFavoriteFoods().remove("치킨");
-			findMember.getFavoriteFoods().add("한식");
+//			findMember.getFavoriteFoods().remove("치킨");
+//			findMember.getFavoriteFoods().add("한식");
 
 			// 값 타입은 member만 lifecycle이 돌고 나머지는 값만 가져오는 방식
 
 			// equals, hashcode 를 무조건 명시 해야 참조값을 지운다
-			System.out.println("=========================================");
-			findMember.getAddressHistory().remove(new AddressEntity("old1", "street", "1000"));
-			findMember.getAddressHistory().add(new AddressEntity("newCity1", "street", "1000"));
-			System.out.println("=========================================");
+//			System.out.println("=========================================");
+//			findMember.getAddressHistory().remove(new AddressEntity("old1", "street", "1000"));
+//			findMember.getAddressHistory().add(new AddressEntity("newCity1", "street", "1000"));
+//			System.out.println("=========================================");
 
 
 			
-			tx.commit();
-		}catch (Exception e){
-			tx.rollback();
-		}finally {
-			em.close();
-		}
-		emf.close();
+//			tx.commit();
+//		}catch (Exception e){
+//			tx.rollback();
+//		}finally {
+//			em.close();
+//		}
+//		emf.close();
 	}
 }
