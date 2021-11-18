@@ -127,39 +127,39 @@ import javax.persistence.Persistence;
  */
 public class DataType {
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 
-		EntityTransaction tx = em.getTransaction();
+//		EntityTransaction tx = em.getTransaction();
 
-		tx.begin();
-		try {
+//		tx.begin();
+//		try {
 //			DataType_Member member = new DataType_Member();
 //			member.setUserName("MemberA");
 //			member.setAddress(new Address("city", "street", "10000"));
 //			member.setWorkPeriod(new Period());
 //			em.persist(member);
 
-			Address address = new Address("city", "street", "10000");
+//			Address address = new Address("city", "street", "10000");
 
-			DataType_Member member = new DataType_Member();
-			member.setUserName("member1");
-			member.setAddress(address);
-			em.persist(member);
+//			DataType_Member member = new DataType_Member();
+//			member.setUserName("member1");
+//			member.setAddress(address);
+//			em.persist(member);
 
-			Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipCode());
+//			Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipCode());
 
-			DataType_Member member2 = new DataType_Member();
-			member2.setUserName("member2");
+//			DataType_Member member2 = new DataType_Member();
+//			member2.setUserName("member2");
 //			member2.setAddress(address);
 			// 복사한걸 들고오기 때문에 영향이없다. => 서로 다른 값 city, newCity가 들어감
-			member2.setAddress(copyAddress);
-			em.persist(member2);
+//			member2.setAddress(copyAddress);
+//			em.persist(member2);
 
 			// member1, member2 둘다 city가 newCity로 데이터가 들어간다 ( side effect ) 
 			// 만약에 값을 고의로 공유시키고 싶다면 @Embedded 보다는 @entity로 해야한다.
-			member.getAddress().setCity("newCity");
+//			member.getAddress().setCity("newCity");
 
 			// setter를 없애고 생성자로만 값을 대입.
 //			address.setCity();
@@ -167,22 +167,22 @@ public class DataType {
 //			address.setZipCode();
 			
 			// Setter가 없이 즉, 불변 객체 형식으로 값을 대입한다
-			Address newAddress = new Address("NewCity", address.getStreet(), address.getZipCode());
+//			Address newAddress = new Address("NewCity", address.getStreet(), address.getZipCode());
 
-			DataType_Member member3 = new DataType_Member();
-			member3.setUserName("member3");
-			member3.setAddress(newAddress);
-			em.persist(member3);
+//			DataType_Member member3 = new DataType_Member();
+//			member3.setUserName("member3");
+//			member3.setAddress(newAddress);
+//			em.persist(member3);
 
 
 
-			tx.commit();
-		}catch (Exception e){
-			tx.rollback();
-		}finally {
-			em.close();
-		}
-		emf.close();
+//			tx.commit();
+//		}catch (Exception e){
+//			tx.rollback();
+//		}finally {
+//			em.close();
+//		}
+//		emf.close();
 
 	}
 }
