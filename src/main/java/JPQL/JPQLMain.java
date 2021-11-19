@@ -69,16 +69,15 @@ import java.util.List;
 	  - 단 영속성 컨텍스트를 적절한 시점에 강제로 플러시 필요
 	  - 예) JPA를 우회해서 SQL을 실행하기 직전에 영속성 컨텍스트 수동 플러시
 
-
  */
 public class JPQLMain {
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+//		EntityManager em = emf.createEntityManager();
+//		EntityTransaction tx = em.getTransaction();
 
-		tx.begin();
-		try {
+//		tx.begin();
+//		try {
 			// 엔티티를 대상으로 쿼리
 //			List<JPQL_Member> result = em.createQuery("select m from JPQL_Member m where m.userName like '%kim%'"
 //							, JPQL_Member.class
@@ -89,28 +88,28 @@ public class JPQLMain {
 //			}
 			
 			//Criteria 사용 준비
-			CriteriaBuilder cb = em.getCriteriaBuilder();
-			CriteriaQuery<JPQL_Member> query = cb.createQuery(JPQL_Member.class);
+//			CriteriaBuilder cb = em.getCriteriaBuilder();
+//			CriteriaQuery<JPQL_Member> query = cb.createQuery(JPQL_Member.class);
 
 			// 루트 클래스 (조회를 시작할 클래스)
-			Root<JPQL_Member> m = query.from(JPQL_Member.class);
+//			Root<JPQL_Member> m = query.from(JPQL_Member.class);
 
 			// 쿼리 생성
-			CriteriaQuery<JPQL_Member> cq = query.select(m).where(cb.equal(m.get("userName"), "kim"));
-			List<JPQL_Member> resultList = em.createQuery(cq).getResultList();
+//			CriteriaQuery<JPQL_Member> cq = query.select(m).where(cb.equal(m.get("userName"), "kim"));
+//			List<JPQL_Member> resultList = em.createQuery(cq).getResultList();
 
 			// flush -> commit, query
-			em.createNativeQuery("select MEMBER_ID from MEMBER")
-							.getResultList();
+//			em.createNativeQuery("select MEMBER_ID from MEMBER")
+//							.getResultList();
 
-			tx.commit();
-		}catch (Exception e){
-			tx.rollback();
-			e.printStackTrace();
-		}finally{
-			em.close();
-		}
-		emf.close();
+//			tx.commit();
+//		}catch (Exception e){
+//			tx.rollback();
+//			e.printStackTrace();
+//		}finally{
+//			em.close();
+//		}
+//		emf.close();
 
 	}
 }
