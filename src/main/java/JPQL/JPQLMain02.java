@@ -41,7 +41,7 @@ import java.util.List;
  */
 public class JPQLMain02 {
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("preHello");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 
