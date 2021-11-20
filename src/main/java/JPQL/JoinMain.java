@@ -78,18 +78,79 @@ import java.util.List;
 	                             else '일반요금'
 	                        end
 	                 from Member m
+
 	   - 단순 CASE 식
 	       => query : select case t.name when '팀A' then '인센티브110%'
 	                                     when '팀B' then '인센티브120%'
 	                                     else '인센티브105%'
 							 end
 					  from Team t
+
 	   - COALESCE : 하나씩 조회해서 null 이 아니면 반환
 	   - NULLIF : 두 값이 같으면 null 반환, 다르면 첫 번째 값 반환
 	       ex) select coalesce(m.username, '이름 없는 회원') from Member m 
 	            => 사용자 이름이 없으면 이름이 없는 회원을 반환
 	           select NULLIF(m.username, '관리자') from Member m
 	            => 사용자 이름이 '관리자'면 null을 반환하고 나머지는 본인의 이름을 반환
+
+	  * JPQL 기본 함수 ( JPA 표준 함수, DB 종류에 상관없이 사용 가능 )
+	   - CONCAT
+	   - SUBSTRING
+	   - TRIM
+	   - LOWER, UPPER
+	   - LENGTH
+	   - LOCATE
+	   - ABS, SQBT, MOD
+	   - SIZE, INDEX(JPA 용도)
+
+	  * 사용자 정의 함수 호출 ( JPA는 DB에 등록된 사용자 정의 함수를 모르기 때문에 function 으로 명시해준다 )
+	   - 하이버네이트는 사용전 방언에 추가해야 한다
+	    => 사용하는 DB 방언을 상속받고, 사용자 정의 함수를 등록한다
+	     ex) select function( 'group_concat', i.name ) from Item i
+	
+	  * 경로 표현식 ( 컬렉션은 쓰는 시점에서 끝 => .을 찍고 더 들어가지 못함 )
+	   - . ( 점 ) 을 찍어 객체 그래프를 탐색 하는것
+	     => select m.username => 상태 필드
+	          from Member m
+	          join m.team t   => 단일 값 연관 필드
+	          join m.orders o => 컬렉션 값 연관 필드
+	       where t.name = '팀A'
+	   - 상태 필드( state field ) : 단순히 값을 저장하기 위한 필드, m.username
+	   - 연관 필드( association field ) : 연관관계를 위한 필드
+	     => 단일 값 연관 필드 : @ManyToOne, @OneToOne, 대상이 엔티티(ex : m.team)
+	     => 컬렉션 값 연관 필드 : @OneToMany, @ManyToMany, 대상이 컬렉션(ex : m.orders)
+
+	 * 경로 표현식 특징
+	  - 상태 필드( state field ) : 경로 탐색의 끝, 탐색 X
+	  - 단일 값 연관 경로 : 묵시적 내부 조인 ( inner join ) 발생, 탐색 O
+	  - 컬렉션 값 연관 경로 : 묵시적 내부 조인 발생, 탐색 X
+	    => FROM 절에서 명시적 조인을 통해 별칭을 얻으면 별칭을 통해 탐색 가능
+
+	 * 상태 필드 경로 탐색
+	  - JPQL : select m.username, m.age from Member m
+	  - SQL : select m.username, m.age from Member m
+
+	 * 명시적 조인, 묵시적 조인
+	  - 명시적 조인 : join 키워드 직접 사용
+	   => select m from Member m join m.team t
+	  - 묵시적 조인 : 경로 표현식에 의해 묵시적으로 SQL 조인 발생 ( 내부 조인만 가능 )
+	   => select m.team from Member m
+
+	* 경로 표현식 - 예제
+	 1. select o.member.team from Order o => 성공
+	 2. select t.members from Team => 성공
+	 3. select t.members.username from Team t => 실패
+	 4. select m.username from Team t join t.members m => 성공
+	
+	* 경로 탐색을 사용한 묵시적 조인 시 주의사항
+	 - 항상 내부 조인
+	 - 컬렉션은 경로 탐색의 끝, 명시적 조인을 통해 별칭을 얻어야 한다
+	 - 경로 탐색은 주로 SELECT, WHERE 절에서 사용하지만 묵시적 조인으로 인해 SQL의 FROM( JOIN )절에 영향을 준다.
+
+	* 실무 조언
+	 - 가급적 묵시적 조인 대신에 명시적 조인 사용
+	 - 조인은 SQL 튜닝에 중요 포인트
+	 - 묵시적 조인은 조인이 일어나는 상황을 한눈에 파악하기 어려움
 
  */
 public class JoinMain {
