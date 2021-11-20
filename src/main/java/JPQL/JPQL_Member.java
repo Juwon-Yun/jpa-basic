@@ -16,10 +16,16 @@ public class JPQL_Member {
 	@Column(name = "MEMBER_AGE")
 	private int age;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "TEAM_ID")
 	private JPQL_TEAM team;
 
+	//연관관계 편의 메소드
+	public void changeTeam(JPQL_TEAM team){
+		this.team = team;
+		team.getMembers().add(this);
+	}
+	
 	public JPQL_Member() {
 	}
 

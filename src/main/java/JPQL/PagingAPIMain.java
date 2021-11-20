@@ -11,10 +11,11 @@ import java.util.List;
 	  - setFirstResult(int startPosition) : 조회 시작 위치 ( 0부터 시작 )
 	  - setMaxResult(int maxPosition) : 조회할 데이터 수
 
+
  */
 public class PagingAPIMain {
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("preHello3");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
