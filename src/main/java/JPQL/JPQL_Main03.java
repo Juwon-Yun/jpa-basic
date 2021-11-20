@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class JPQL_Main03 {
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("preHello2");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -35,7 +35,10 @@ public class JPQL_Main03 {
 			member.setUserName("member1");
 			member.setAge(10);
 			em.persist(member);
-			
+
+			em.flush();
+			em.clear();
+
 			// 엔티티 프로젝션
 			// 조회한 모든 데이터가 영속성 컨텍스트에 저장됨
 			List<JPQL_Member> result = em.createQuery("select m from JPQL_Member m", JPQL_Member.class)

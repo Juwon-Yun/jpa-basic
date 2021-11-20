@@ -59,4 +59,15 @@ public class JPQL_Member {
 	public void setTeam(JPQL_TEAM team) {
 		this.team = team;
 	}
+
+	@Override
+	public String toString() {
+		return "JPQL_Member{" +
+				"id=" + id +
+				", userName='" + userName + '\'' +
+				", age=" + age +
+				'}';
+	}
+
+
 }
