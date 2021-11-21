@@ -21,10 +21,30 @@ import java.util.List;
 	  - 일대다 관계, 컬렉션 페치 조인
 	    => [JPQL] select t from Team t join fetch t.members where t. name = '팀A'
 		   [SQL]
+	 
+	 * 페치 조인과 DISTINCT ( 일대다 => 뻥튀기, 다대일 => 뻥튀기 X ) 
+	  - SQL의 DISTINCT는 중복된 결과를 제거하는 명령
+	  - JPQL의 DISTINCT 2가지 기능 제공
+	   - 1. SQL에 DISTINCT를 추가
+	   - 2. 애플리케이션에서 엔티티 중복 제거
+	  - SQL에 DISTINCT를 추가하지만 데이터가 다르므로 SQL 결과에서 중복제거 실패 => List안에서 중복을 제거함
+	  
+	 * 페치 조인과 DISTINCT
+	  - DISTINCT가 추가로 애플리케이션에서 중복 제거 시도
+	  - 같은 식별자를 가진 Team 엔티티 제거
+     
+     * 페치 조인과 일반 조인의 차이
+      - 일반 조인 실행시 연관된 엔티티를 함께 조회하지 않음
+      - JPQL은 결과를 반환할 때 연관관계 고려하지 않음
+      - 단지 SELECT 절에 지정한 엔티티만 조회할 뿐
+      - 여기서는 팀 엔티티만 조회하고, 회원 엔티티는 조회하지 않음
+      - 페치 조인을 사용할 때만 연관된 엔티티도 함께 조회(즉시 로딩)
+      - 페치 조인은 객체 그래프를 SQL 한번에 조회하는 개념
+ 
  */
 public class FetchJoinMain {
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("prehello5");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 
@@ -61,7 +81,9 @@ public class FetchJoinMain {
 			// 프록시가 아니고 실제 엔티티가 영속성 컨텍스트에 올라가있는다
 			// fetch => LAZY로 설정해도 항상 join fetch가 우선순위에 올라가있다
 			query = "select m From JPQL_Member m join fetch m.team";
-			query = "select t From JPQL_TEAM t join fetch t.members";
+
+			// DISTINCT를 추가하면 teamA는 한번만 출력된다 ( 중복 제거 )
+			query = "select distinct t From JPQL_TEAM t join fetch t.members";
 
 //			List<JPQL_Member> result = em.createQuery(query, JPQL_Member.class)
 //							.getResultList();
@@ -71,6 +93,9 @@ public class FetchJoinMain {
 //				System.out.println("m => " + m.getUserName() + " , " + m.getTeam().getName() );
 //				System.out.println("=======================================================");
 //			}
+
+			// size를 조회하면 teamA가 2개가 나온다 => 영속성 컨텍스트에는 1개로 저장되어 데이터를 보여주지만
+			// List 에는 같은 주솟값(객체값)이 두번 나온다
 			List<JPQL_TEAM> teamResult = em.createQuery(query, JPQL_TEAM.class)
 					.getResultList();
 
@@ -78,7 +103,13 @@ public class FetchJoinMain {
 			for (JPQL_TEAM team : teamResult) {
 				System.out.println("team => " + team.getName() + " , members => " + team.getMembers().size());
 				System.out.println("=======================================================");
+				for (JPQL_Member m2 : team.getMembers()) {
+					// 패치 조인으로 팀과 회원을 함께 조회해서 지연 로딩이 발생하지 않음
+					System.out.println("username => " + m2.getUserName() + ", member =>" + m2 );
+				}
 			}
+
+
 
 
 			/*
