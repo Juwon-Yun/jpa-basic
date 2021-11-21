@@ -147,7 +147,7 @@ import java.util.List;
 	 - 컬렉션은 경로 탐색의 끝, 명시적 조인을 통해 별칭을 얻어야 한다
 	 - 경로 탐색은 주로 SELECT, WHERE 절에서 사용하지만 묵시적 조인으로 인해 SQL의 FROM( JOIN )절에 영향을 준다.
 
-	* 실무 조언
+	* 실무에서의 조언
 	 - 가급적 묵시적 조인 대신에 명시적 조인 사용
 	 - 조인은 SQL 튜닝에 중요 포인트
 	 - 묵시적 조인은 조인이 일어나는 상황을 한눈에 파악하기 어려움
@@ -155,7 +155,7 @@ import java.util.List;
  */
 public class JoinMain {
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("prehello4");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();

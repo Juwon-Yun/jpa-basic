@@ -16,6 +16,7 @@ public class JPQL_Member {
 	@Column(name = "MEMBER_AGE")
 	private int age;
 
+	// 중요함 절때 까먹지 말아야할 속성
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "TEAM_ID")
 	private JPQL_TEAM team;
